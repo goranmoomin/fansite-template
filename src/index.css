@@ -117,15 +117,6 @@ details summary::-webkit-details-marker {
     flex-grow: 1;
 }
 
-.album-item details[open] ~ * {
-    animation: sweep .5s ease-in-out;
-}
-
-@keyframes sweep {
-    0%    {opacity: 0; margin-left: -10px}
-    100%  {opacity: 1; margin-left: 0px}
-}
-
 @media screen and (max-width: 768px) {
     .album-container {
         flex-direction: column;
