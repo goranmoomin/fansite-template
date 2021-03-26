@@ -1,0 +1,137 @@
+* {
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+/* TODO: Optimize CJK fonts */
+
+@font-face {
+    font-family: "Fredoka One";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../public/Jua-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Fredoka One";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../public/FredokaOne-Regular.ttf") format("truetype");
+    unicode-range: U+0020-007E;
+}
+
+@font-face {
+    font-family: "Nanum Gothic";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../public/NanumGothic-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Nanum Gothic";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../public/NanumGothic-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Nanum Gothic";
+    font-style: normal;
+    font-weight: 800;
+    src: url("../public/NanumGothic-ExtraBold.ttf") format("truetype");
+}
+
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+.album-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.album-container::before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-image: url("https://goranmoomin.github.io/sujeonglove-website/img/album.png");
+    background-size: cover;
+    filter: blur(20px);
+}
+
+.album-container > * {
+    margin: 0 16px;
+}
+
+.album-item {
+    /* background-color: red; */
+    flex-basis: 0;
+    flex-grow: 1;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+.album-cover {
+    /* background-color: orange; */
+    margin: 0 auto;
+}
+
+.album-cover > h2 {
+    font-family: "Fredoka One", sans-serif;
+}
+
+.album-cover > img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.album-table {
+    border-spacing: 8px;
+}
+
+.album-button {
+    background-color: unset;
+    border: 0;
+    border-bottom: 2px solid;
+}
+
+.album-button:hover {
+    border-bottom: 3px solid;
+    font-weight: 600;
+}
+
+.album-tracklist-summary {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.album-tracklist-title {
+    flex-grow: 1;
+}
+
+.album-item details[open] ~ * {
+    animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+    0%    {opacity: 0; margin-left: -10px}
+    100%  {opacity: 1; margin-left: 0px}
+}
+
+@media screen and (max-width: 768px) {
+    .album-container {
+        flex-direction: column;
+    }
+
+    .album-item {
+        align-self: center;
+    }
+}
