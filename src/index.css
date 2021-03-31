@@ -132,4 +132,8 @@ details summary:focus {
     .album-item {
         align-self: center;
     }
+
+    .album-button {
+        order: -1;
+    }
 }
