@@ -118,7 +118,7 @@ function updateAlbum(selectedAlbum, albumContainer, leftAlbumItem, rightAlbumIte
         let escapedValue = $("<div>").text(value).html();
         albumTableTbodyHtml += `<tr><td>${escapedKey}</td><td>${escapedValue}</td></tr>`;
     }
-    rightAlbumItem.find(".album-table > tbody").html(albumTableTbodyHtml);
+    leftAlbumItem.find(".album-table > tbody").html(albumTableTbodyHtml);
     rightAlbumItem.find("h3").first().text(selectedAlbum.description);
     rightAlbumItem.find("p").first().text(selectedAlbum.detailedDescription);
     let trackListHtml = "";
