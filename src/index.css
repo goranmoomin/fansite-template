@@ -40,6 +40,9 @@
     src: url("../public/NanumGothic-ExtraBold.ttf") format("truetype");
 }
 
+details summary {
+    list-style: none;
+}
 
 details summary::-webkit-details-marker {
     display: none;
