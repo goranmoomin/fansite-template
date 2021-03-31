@@ -55,9 +55,9 @@ details summary:focus {
 .album-container {
     display: flex;
     flex-direction: row;
-    height: 100vh;
     justify-content: space-between;
     align-items: center;
+    min-height: 100vh;
 }
 
 .album-container.animating::before {
@@ -78,7 +78,6 @@ details summary:focus {
     background-size: cover;
     filter: blur(20px);
     margin: 0;
-    transform: scale(1.1);
 }
 
 .album-item {
@@ -137,7 +136,6 @@ details summary:focus {
 @media screen and (max-width: 768px) {
     .album-container {
         flex-direction: column;
-        min-height: 100vh;
     }
 
     .album-item {
