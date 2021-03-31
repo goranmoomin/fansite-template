@@ -48,6 +48,21 @@ let albums = [{
 
 let selectedAlbumIndex = 0;
 
+function albumBackgroundEl(album) {
+    let el = $("<div>");
+    el.css({
+        position: "absolute",
+        "z-index": -1,
+        width: "100%",
+        height: "100%",
+        "background-image": `url("${album.albumImgSrc}")`,
+        "background-size": "cover",
+        filter: "blur(20px)",
+        transform: "scale(1.1)"
+    });
+    return el;
+}
+
 function leftAlbumItemEl(album) {
     return $(`
 <div class="album-item">
@@ -91,7 +106,10 @@ function rightAlbumItemEl(album) {
 // Create new .album-items with position: absolute with the same dimentions
 // and animate it left or right
 
-function updateAlbum(selectedAlbum, leftAlbumItem, rightAlbumItem) {
+function updateAlbum(selectedAlbum, albumContainer, leftAlbumItem, rightAlbumItem) {
+    albumContainer.find(".album-container-background").css({
+        "background-image": `url(${selectedAlbum.albumImgSrc})`
+    });
     leftAlbumItem.find("h2").text(selectedAlbum.title);
     leftAlbumItem.find("img").attr("src", selectedAlbum.albumImgSrc);
     let albumTableTbodyHtml = "";
@@ -118,19 +136,28 @@ ${description}
 }
 
 $(document).ready(function () {
+    let albumContainer = $(".album-container").first();
     let realLeftAlbumItem = $(".album-item").first();
     let realRightAlbumItem = $(".album-item").last();
-    updateAlbum(albums[0], realLeftAlbumItem, realRightAlbumItem);
+    updateAlbum(albums[0], albumContainer, realLeftAlbumItem, realRightAlbumItem);
     $(".album-button").click(function () {
+        albumContainer.addClass("animating");
+        let fakeOriginalAlbumBackground = albumBackgroundEl(albums[selectedAlbumIndex]);
+        fakeOriginalAlbumBackground.css({ left: 0, top: 0 });
+        $(document.body).append(fakeOriginalAlbumBackground);
+        fakeOriginalAlbumBackground.animate({ left: -$(document).width() }, 500, () => {
+            fakeOriginalAlbumBackground.remove();
+        });
+
+        realLeftAlbumItem.addClass("animating");
+        realRightAlbumItem.addClass("animating");
         let albumItemWidth = realLeftAlbumItem.width();
-        let { left: realLeftAlbumItemLeftOffset, top: realAlbumItemTopOffset } = realLeftAlbumItem.offset();
-        let { left: realRightAlbumItemLeftOffset } = realRightAlbumItem.offset();
-        realLeftAlbumItem.css({ opacity: 0 });
-        realRightAlbumItem.css({ opacity: 0 });
+        let { left: realLeftAlbumItemLeftOffset, top: realLeftAlbumItemTopOffset } = realLeftAlbumItem.offset();
+        let { left: realRightAlbumItemLeftOffset, top: realRightAlbumItemTopOffset } = realRightAlbumItem.offset();
         let fakeOriginalLeftAlbumItem = leftAlbumItemEl(albums[selectedAlbumIndex]);
         let fakeOriginalRightAlbumItem = rightAlbumItemEl(albums[selectedAlbumIndex]);
-        fakeOriginalLeftAlbumItem.css({ position: "absolute", left: realLeftAlbumItemLeftOffset, top: realAlbumItemTopOffset });
-        fakeOriginalRightAlbumItem.css({ position: "absolute", left: realRightAlbumItemLeftOffset, top: realAlbumItemTopOffset });
+        fakeOriginalLeftAlbumItem.css({ position: "absolute", left: realLeftAlbumItemLeftOffset, top: realLeftAlbumItemTopOffset });
+        fakeOriginalRightAlbumItem.css({ position: "absolute", left: realRightAlbumItemLeftOffset, top: realRightAlbumItemTopOffset });
         fakeOriginalLeftAlbumItem.width(albumItemWidth);
         fakeOriginalRightAlbumItem.width(albumItemWidth);
         $(document.body).append(fakeOriginalLeftAlbumItem);
@@ -149,22 +176,30 @@ $(document).ready(function () {
             console.log($(this).text());
         }
         selectedAlbumIndex %= albums.length;
+
+        let fakeNewAlbumBackground = albumBackgroundEl(albums[selectedAlbumIndex]);
+        fakeNewAlbumBackground.css({ left: $(document).width(), top: 0 });
+        $(document.body).append(fakeNewAlbumBackground);
+        fakeNewAlbumBackground.animate({ left: 0 }, 500, () => {
+            fakeNewAlbumBackground.remove();
+            albumContainer.removeClass("animating");
+        });
         let fakeNewLeftAlbumItem = leftAlbumItemEl(albums[selectedAlbumIndex]);
         let fakeNewRightAlbumItem = rightAlbumItemEl(albums[selectedAlbumIndex]);
-        fakeNewLeftAlbumItem.css({ position: "absolute", left: -albumItemWidth, top: realAlbumItemTopOffset, opacity: 0 });
-        fakeNewRightAlbumItem.css({ position: "absolute", left: $(document).width(), top: realAlbumItemTopOffset, opacity: 0 });
+        fakeNewLeftAlbumItem.css({ position: "absolute", left: -albumItemWidth, top: realLeftAlbumItemTopOffset, opacity: 0 });
+        fakeNewRightAlbumItem.css({ position: "absolute", left: $(document).width(), top: realRightAlbumItemTopOffset, opacity: 0 });
         fakeNewLeftAlbumItem.width(albumItemWidth);
         fakeNewRightAlbumItem.width(albumItemWidth);
         $(document.body).append(fakeNewLeftAlbumItem);
         $(document.body).append(fakeNewRightAlbumItem);
         fakeNewLeftAlbumItem.animate({ left: realLeftAlbumItemLeftOffset, opacity: 100 }, 500, () => {
             fakeNewLeftAlbumItem.remove();
-            realLeftAlbumItem.css({ opacity: 100 });
+            realLeftAlbumItem.removeClass("animating");
         });
         fakeNewRightAlbumItem.animate({ left: realRightAlbumItemLeftOffset, opacity: 100 }, 500, () => {
             fakeNewRightAlbumItem.remove();
-            realRightAlbumItem.css({ opacity: 100 });
+            realRightAlbumItem.removeClass("animating");
         });
-        updateAlbum(albums[selectedAlbumIndex], realLeftAlbumItem, realRightAlbumItem);
+        updateAlbum(albums[selectedAlbumIndex], albumContainer, realLeftAlbumItem, realRightAlbumItem);
     });
 });
