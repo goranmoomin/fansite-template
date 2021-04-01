@@ -58,7 +58,7 @@ function albumBackgroundEl(album) {
         "background-image": `url("${album.albumImgSrc}")`,
         "background-size": "cover",
         filter: "blur(20px)",
-        transform: "scale(1.1)"
+        margin: 0
     });
     return el;
 }
