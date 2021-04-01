@@ -168,6 +168,7 @@ $(document).ready(function () {
         fakeOriginalRightAlbumItem.animate({ left: $(document).width(), opacity: 0 }, 500, () => {
             fakeOriginalRightAlbumItem.remove();
         });
+        selectedAlbumIndex += albums.length;
         if ($(this).text() == "next") {
             selectedAlbumIndex++;
         } else if ($(this).text() == "prev") {
