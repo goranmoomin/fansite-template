@@ -20,7 +20,9 @@ let albums = [{
         duration: "3:37",
         writer: "서지음/ Mayu Wakisaka/ Phul schwan/ Sean Michael Alexander/ Phill Schwan",
         description: "'류수정'이란 이름으로 첫 번째로 선보이는 솔로 앨범의 타이틀곡 [Tiger Eyes]는 매력적인 이성의 눈빛을 Tiger Eyes]에 비유, 이를 바라보며 깊게 빠져 들어가는 과정을 맹수의 나른하고 서늘한 움직임으로 묘사한 감각적인 가사가 인상적이다. POP을 기반으로 EDM 요소를 적절히 녹여 세련된 느낌을 주었으며, 류수정의 매력적인 보이스와 몽환적인 느낌이 잘 어우러져 색다른 느낌을 선보였다."
-    }]
+    }],
+    color: "#1f4294",
+    textColor: "#000"
 }, {
     title: "아이돌 드라마 공작단 OST Part.2",
     albumImgSrc: "https://goranmoomin.github.io/sujeonglove-website/img/album2.png",
@@ -43,7 +45,9 @@ let albums = [{
         duration: "3:37",
         writer: "서지음/ Mayu Wakisaka/ Phul schwan/ Sean Michael Alexander/ Phill Schwan",
         description: "'류수정'이란 이름으로 첫 번째로 선보이는 솔로 앨범의 타이틀곡 [Tiger Eyes]는 매력적인 이성의 눈빛을 Tiger Eyes]에 비유, 이를 바라보며 깊게 빠져 들어가는 과정을 맹수의 나른하고 서늘한 움직임으로 묘사한 감각적인 가사가 인상적이다. POP을 기반으로 EDM 요소를 적절히 녹여 세련된 느낌을 주었으며, 류수정의 매력적인 보이스와 몽환적인 느낌이 잘 어우러져 색다른 느낌을 선보였다."
-    }]
+    }],
+    color: "#fff",
+    textColor: "#fff"
 }];
 
 let selectedAlbumIndex = 0;
@@ -65,7 +69,7 @@ function albumBackgroundEl(album) {
 
 function leftAlbumItemEl(album) {
     return $(`
-<div class="album-item">
+<div class="album-item" style="color: ${album.color}">
     <div class="album-cover">
         <h2>${album.title}</h2>
         <img src="${album.albumImgSrc}">
@@ -81,21 +85,21 @@ function leftAlbumItemEl(album) {
 
 function rightAlbumItemEl(album) {
     return $(`
-<div class="album-item">
+<div class="album-item" style="color: ${album.textColor}">
     <h3>${album.description}</h3>
     <p>${album.detailedDescription}</p>
     <h3>Track List</h3>
-    <ol>
+    <ol class="track-list" style="border-top: 3px solid ${album.color}">
         ${album.tracks.map(track => `<li>
-             <details>
+             <details class="track">
                  <summary>
                      <div class="album-tracklist-summary">
                          <div class="album-tracklist-title">${track.title}</div>
                          <div>${track.duration}</div>
                      </div>
-                 </summary>
-                 ${track.writer}
-                 ${track.description}
+             </summary>
+             <div class="track-writer">${track.writer}</div>
+             <div class="track-description">${track.description}</div>
             </details>
         </li>`).join("")}
     </ol>
@@ -123,16 +127,34 @@ function updateAlbum(selectedAlbum, albumContainer, leftAlbumItem, rightAlbumIte
     rightAlbumItem.find("p").first().text(selectedAlbum.detailedDescription);
     let trackListHtml = "";
     for (let { title, duration, writer, description } of selectedAlbum.tracks) {
-        trackListHtml += `<li><details><summary>
+        trackListHtml += `<li><details class="track"><summary>
 <div class="album-tracklist-summary">
 <div class="album-tracklist-title">${title}</div>
 <div>${duration}</div></div>
 </summary>
-${writer}
-${description}
+<div class="track-writer">${writer}</div>
+<div class="track-description">${description}</div>
 </details></li>`;
     }
     rightAlbumItem.find("ol").html(trackListHtml);
+    albumContainer.find("button").css({ color: selectedAlbum.color });
+    leftAlbumItem.css({ color: selectedAlbum.color });
+    rightAlbumItem.css({ color: selectedAlbum.textColor });
+    rightAlbumItem.find(".track-list").css({ "border-top": `3px solid ${selectedAlbum.color}` });
+    addAnimationToDetails();
+}
+
+function addAnimationToDetails() {
+    $("details.track summary").each(function() {
+        $(this).nextAll().wrapAll("<div class='summary-wrapped'></div>");
+    });
+    $("details.track").attr("open", "").find(".summary-wrapped").css("display", "none");
+    $("details.track summary").click(function(e) {
+        e.preventDefault();
+        $(this).siblings('.summary-wrapped').slideToggle(function() {
+            $(this).parent("details").toggleClass("open");
+        });
+    });
 }
 
 $(document).ready(function () {

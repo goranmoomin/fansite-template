@@ -87,10 +87,24 @@ details summary:focus {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
+    font-weight: 600;
 }
 
 .album-item.animating {
     opacity: 0;
+}
+
+.track-list {
+    margin: 0;
+    border-top: 3px solid #1f4294;
+}
+
+.track {
+    padding: 1em;
+}
+
+.track-writer {
+    padding: 1em 0;
 }
 
 .album-cover {
