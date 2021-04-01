@@ -94,17 +94,39 @@ details summary:focus {
     opacity: 0;
 }
 
+.album-item {
+    line-height: 1.6;
+}
+
 .track-list {
     margin: 0;
     border-top: 3px solid #1f4294;
+    list-style-type: none;
+    padding-left: 0;
+    counter-reset: track-counter;
+}
+
+.track-list > li {
+    counter-increment: track-counter;
+    border-bottom: 1px solid #1f4294;
+}
+
+.track-list .album-tracklist-summary::before {
+    content: counter(track-counter) ". ";
+    width: 1em;
+    padding-right: 1em;
+}
+
+.track-summary-wrapped {
+    padding-left: 2em;
 }
 
 .track {
-    padding: 1em;
+    padding: .5em;
 }
 
 .track-writer {
-    padding: 1em 0;
+    padding: .5em 0;
 }
 
 .album-cover {
@@ -123,7 +145,8 @@ details summary:focus {
 }
 
 .album-table {
-    border-spacing: 8px;
+    margin-top: 1em;
+    border-spacing: 8px 0;
 }
 
 .album-button {

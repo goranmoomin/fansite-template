@@ -92,7 +92,7 @@ function rightAlbumItemEl(album) {
     <p>${album.detailedDescription}</p>
     <h3>Track List</h3>
     <ol class="track-list" style="border-top: 3px solid ${album.color}">
-        ${album.tracks.map(track => `<li>
+        ${album.tracks.map(track => `<li style="border-bottom: 1px solid ${album.color}">
              <details class="track">
                  <summary>
                      <div class="album-tracklist-summary">
@@ -146,17 +146,18 @@ function updateAlbum(selectedAlbum, albumContainer, leftAlbumItem, rightAlbumIte
     leftAlbumItem.css({ color: selectedAlbum.color });
     rightAlbumItem.css({ color: selectedAlbum.textColor });
     rightAlbumItem.find(".track-list").css({ "border-top": `3px solid ${selectedAlbum.color}` });
+    rightAlbumItem.find(".track-list > li").css({ "border-bottom": `1px solid ${selectedAlbum.color}` });
     addAnimationToDetails();
 }
 
 function addAnimationToDetails() {
     $("details.track summary").each(function() {
-        $(this).nextAll().wrapAll("<div class='summary-wrapped'></div>");
+        $(this).nextAll().wrapAll("<div class='track-summary-wrapped'></div>");
     });
-    $("details.track").attr("open", "").find(".summary-wrapped").css("display", "none");
+    $("details.track").attr("open", "").find(".track-summary-wrapped").css("display", "none");
     $("details.track summary").click(function(e) {
         e.preventDefault();
-        $(this).siblings('.summary-wrapped').slideToggle(function() {
+        $(this).siblings('.track-summary-wrapped').slideToggle(function() {
             $(this).parent("details").toggleClass("open");
         });
     });
