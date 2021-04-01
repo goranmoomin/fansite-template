@@ -167,7 +167,7 @@ $(document).ready(function () {
     let realLeftAlbumItem = $(".album-item").first();
     let realRightAlbumItem = $(".album-item").last();
     updateAlbum(albums[0], albumContainer, realLeftAlbumItem, realRightAlbumItem);
-    $(".album-button").click(function () {
+    function changeAlbum(next) {
         albumContainer.addClass("animating");
         let fakeOriginalAlbumBackground = albumBackgroundEl(albums[selectedAlbumIndex]);
         fakeOriginalAlbumBackground.css({ left: 0, top: 0 });
@@ -196,12 +196,10 @@ $(document).ready(function () {
             fakeOriginalRightAlbumItem.remove();
         });
         selectedAlbumIndex += albums.length;
-        if ($(this).text() == "next") {
+        if (next) {
             selectedAlbumIndex++;
-        } else if ($(this).text() == "prev") {
-            selectedAlbumIndex--;
         } else {
-            console.log($(this).text());
+            selectedAlbumIndex--;
         }
         selectedAlbumIndex %= albums.length;
 
@@ -229,5 +227,32 @@ $(document).ready(function () {
             realRightAlbumItem.removeClass("animating");
         });
         updateAlbum(albums[selectedAlbumIndex], albumContainer, realLeftAlbumItem, realRightAlbumItem);
+    };
+
+    $(".album-button").click(() => {
+        if ($(this).text() == "next") {
+            changeAlbum(true);
+        } else if ($(this).text() == "prev") {
+            changeAlbum(false);
+        }
+    });
+
+    $(".album-container").on("touchstart", e => {
+        let startX = e.originalEvent.touches[0].clientX;
+        let startY = e.originalEvent.touches[0].clientY;
+        $(".album-container").one("touchend", e => {
+            let touch = e.originalEvent.changedTouches[e.originalEvent.changedTouches.length - 1];
+            let endX = touch.clientX;
+            let endY = touch.clientY;
+            let deltaX = endX - startX;
+            let deltaY = endY - startY;
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) >= 10) {
+                if (deltaX > 0) {
+                    changeAlbum(true);
+                } else {
+                    changeAlbum(false);
+                }
+            }
+        });
     });
 });

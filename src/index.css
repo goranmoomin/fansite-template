@@ -157,6 +157,6 @@ details summary:focus {
     }
 
     .album-button {
-        order: -1;
+        display: none;
     }
 }
