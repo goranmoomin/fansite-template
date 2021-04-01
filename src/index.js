@@ -22,7 +22,8 @@ let albums = [{
         description: "'류수정'이란 이름으로 첫 번째로 선보이는 솔로 앨범의 타이틀곡 [Tiger Eyes]는 매력적인 이성의 눈빛을 Tiger Eyes]에 비유, 이를 바라보며 깊게 빠져 들어가는 과정을 맹수의 나른하고 서늘한 움직임으로 묘사한 감각적인 가사가 인상적이다. POP을 기반으로 EDM 요소를 적절히 녹여 세련된 느낌을 주었으며, 류수정의 매력적인 보이스와 몽환적인 느낌이 잘 어우러져 색다른 느낌을 선보였다."
     }],
     color: "#1f4294",
-    textColor: "#000"
+    textColor: "#000",
+    backgroundColor: "rgb(187, 193, 230)"
 }, {
     title: "아이돌 드라마 공작단 OST Part.2",
     albumImgSrc: "https://goranmoomin.github.io/sujeonglove-website/img/album2.png",
@@ -47,7 +48,8 @@ let albums = [{
         description: "'류수정'이란 이름으로 첫 번째로 선보이는 솔로 앨범의 타이틀곡 [Tiger Eyes]는 매력적인 이성의 눈빛을 Tiger Eyes]에 비유, 이를 바라보며 깊게 빠져 들어가는 과정을 맹수의 나른하고 서늘한 움직임으로 묘사한 감각적인 가사가 인상적이다. POP을 기반으로 EDM 요소를 적절히 녹여 세련된 느낌을 주었으며, 류수정의 매력적인 보이스와 몽환적인 느낌이 잘 어우러져 색다른 느낌을 선보였다."
     }],
     color: "#fff",
-    textColor: "#fff"
+    textColor: "#fff",
+    backgroundColor: "rgb(80, 24, 20)"
 }];
 
 let selectedAlbumIndex = 0;
@@ -111,6 +113,9 @@ function rightAlbumItemEl(album) {
 // and animate it left or right
 
 function updateAlbum(selectedAlbum, albumContainer, leftAlbumItem, rightAlbumItem) {
+    $(document.body).css({
+        "background-color": selectedAlbum.backgroundColor
+    });
     albumContainer.find(".album-container-background").css({
         "background-image": `url(${selectedAlbum.albumImgSrc})`
     });
