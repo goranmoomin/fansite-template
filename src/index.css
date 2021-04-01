@@ -98,7 +98,7 @@ details summary:focus {
     line-height: 1.6;
 }
 
-.album-item h3 {
+.album-item h3:first-of-type {
     margin-top: 4.06em;
 }
 
