@@ -229,7 +229,7 @@ $(document).ready(function () {
         updateAlbum(albums[selectedAlbumIndex], albumContainer, realLeftAlbumItem, realRightAlbumItem);
     };
 
-    $(".album-button").click(() => {
+    $(".album-button").click(function () {
         if ($(this).text() == "next") {
             changeAlbum(true);
         } else if ($(this).text() == "prev") {
