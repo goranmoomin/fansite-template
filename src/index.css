@@ -98,6 +98,10 @@ details summary:focus {
     line-height: 1.6;
 }
 
+.album-item h3 {
+    margin-top: 4.06em;
+}
+
 .track-list {
     margin: 0;
     border-top: 3px solid #1f4294;
@@ -181,5 +185,9 @@ details summary:focus {
 
     .album-button {
         display: none;
+    }
+
+    .album-item h3 {
+        margin-top: 1em;
     }
 }
