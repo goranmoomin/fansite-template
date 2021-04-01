@@ -163,6 +163,7 @@ function addAnimationToDetails() {
 }
 
 $(document).ready(function () {
+    $(document.body).css({ "overflow-x": "hidden" });
     let albumContainer = $(".album-container").first();
     let realLeftAlbumItem = $(".album-item").first();
     let realRightAlbumItem = $(".album-item").last();
